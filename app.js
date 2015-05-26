@@ -3,8 +3,8 @@
 var express = require('express'),
 	app = express(), 
 	server = require('http').createServer(app),
-	io = require('socket.io').listen(server);
-	nicknames = []; //array of all nicknames connected to chat
+	io = require('socket.io').listen(server),
+	nicknames = [], //array of all nicknames connected to chat
 	port = process.env.VCAP_APP_PORT || 7790;
 
 server.listen(port), function() {
@@ -13,9 +13,7 @@ server.listen(port), function() {
 
 app.get('/', function(req, res) {
 	res.sendfile(__dirname + '/index.html');
-}
-
-);
+});
 
 //connecting to index.html's data
 //function(socket) is the socket the client is using
@@ -48,7 +46,8 @@ io.sockets.on('connection', function(socket) {
 	});
 	socket.on('disconnect', function(data) {
 		if(!socket.nickname) return;
-		nicknames.splice(nicknames.indexOf(socket.nickname), 1); //gets rid of elements in the array, first being parameter to start
+		nicknames.splice(nicknames.indexOf(socket.nickname), 1); 
 		updateNicknames();
+		//gets rid of elements in the array, first being parameter to start
 	});
 });
