@@ -5,12 +5,17 @@ var express = require('express'),
 	server = require('http').createServer(app),
 	io = require('socket.io').listen(server);
 	nicknames = []; //array of all nicknames connected to chat
+	port = process.env.VCAP_APP_PORT || 7790;
 
-server.listen(1110);
+server.listen(port), function() {
+	console.log('Server listening on port ' + port);
+}
 
 app.get('/', function(req, res) {
 	res.sendfile(__dirname + '/index.html');
-});
+}
+
+);
 
 //connecting to index.html's data
 //function(socket) is the socket the client is using
